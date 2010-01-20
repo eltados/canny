@@ -6,7 +6,25 @@ This is completely decoupled from any role based implementation allowing you to 
 
 Define rules
 ------------
+      Engine myEngine = new Engine(
+                 Translator.DEFAULT,
+                 new Definition() {{
+                    setRule(CANCEL, CANCELLABLE , OBJECT_SHOULD_BE_A_INTEGER);
+                    setRule(READ, TRUE);
+                    setRule(EDIT, OBJECT_SHOULD_BE_A_STRING);
+                    setRule(DELETE, ADMIN, OBJECT_SHOULD_BE_A_STRING);
+                    setRule(IDENTICAL, new IdenticalRule());
+                 }}
+         );
 
 Use Engine
 ----------
 
+      myEngine.can(admin, CustomAction.READ)); 
+      myEngine.can(null, CustomAction.READ, "something");
+
+      myEngine.can(admin, CustomAction.EDIT, 15)
+      myEngine.can(admin, DELETE, "something"));
+      myEngine.can(guest, DELETE, null);
+      myEngine.can(admin, DELETE, null);
+      myEngine.why(admin, DELETE, null); // => "The Object passed should be a String"

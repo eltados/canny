@@ -16,6 +16,7 @@ Define rules
                     setRule(IDENTICAL, new IdenticalRule());
                  }}
          );
+see more in the test folder
 
 Use Engine
 ----------
@@ -28,3 +29,5 @@ Use Engine
       myEngine.can(guest, DELETE, null);
       myEngine.can(admin, DELETE, null);
       myEngine.why(admin, DELETE, null); // => "The Object passed should be a String"
+
+see more in the test folder

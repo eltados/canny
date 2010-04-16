@@ -1,12 +1,16 @@
-package engine;
+package engine.rule;
 
-import engine.rule.RuleSet;
-import engine.rule.Definition;
+import engine.Action;
+import engine.Dynamic;
+import engine.Translator;
+import engine.User;
 import engine.exception.AccessDeniedException;
 
+import java.util.ArrayList;
 import static java.util.Arrays.asList;
-
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class Engine {
    private Definition definition;
@@ -23,22 +27,22 @@ public class Engine {
    }
 
    public boolean can(User user, Action action, Object object) {
-      RuleSet ruleset = definition.get(action);
-      if (ruleset == null || ruleset.getRules().isEmpty())
+      Law law = getLaw(action,object);
+      if (law == null || law.isEmpty())
          return false;
-      return ruleset.can(user, object);
+      return law.can(user, object);
 
    }
 
    public List<String> why(User user, Action action, Object object) {
-      RuleSet ruleset = definition.get(action);
-      if (ruleset == null)
+      Law law = getLaw(action,object);
+      if (law == null)
          return getActionNotFindErrorMessages(user, action);
 
-      if (ruleset.getRules().isEmpty())
+      if (law.isEmpty())
          return getActionHasNoRulesErrorMessages(user, action);
 
-      return ruleset.getErrors(user, object, translator);
+      return law.getErrors(user, object, translator);
    }
 
    public boolean isAutorized(User user, Action action, Object object) throws AccessDeniedException {
@@ -78,6 +82,17 @@ public class Engine {
    }
 
    //=======================================
+
+   private Law getLaw(Action action, Object object){
+        if (object != null) {
+           for (Map.Entry<Class, Law> entry : definition.getLaws().get(action).entrySet()) {
+               if(entry.getKey()!=null && entry.getKey().isInstance(object))
+                  return definition.get(action,object.getClass());
+           }
+        }
+        return  definition.get(action);
+     }
+
    public boolean can(User user, Action action) {
       return can(user, action, null);
    }

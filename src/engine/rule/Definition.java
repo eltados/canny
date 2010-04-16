@@ -1,43 +1,43 @@
 package engine.rule;
 
 import engine.Action;
-import static engine.rule.Operator.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.ArrayList;
-import static java.util.Arrays.asList;
 
 public class Definition {
-   HashMap<Action, RuleSet> rules = new HashMap<Action, RuleSet>();
+   HashMap<Action, HashMap<Class,Law>> laws = new HashMap<Action, HashMap<Class,Law>>();
 
-   public RuleSet get(Action key) {
-      return rules.get(key);
+   protected HashMap<Action, HashMap<Class, Law>> getLaws() {
+      return laws;
    }
 
-   public List<Action> getActions() {
+   public Law forAction(Action action) {
+      return forAction(action,null);
+   }
+
+   public Law forAction(Action action, Class clazz) {
+      Law law = new Law(action);
+      if(laws.get(action)==null)
+         laws.put(action, new HashMap<Class,Law>());
+      laws.get(action).put(clazz,law);
+      return law;
+   }
+
+   protected Law get(Action key) {
+      return laws.get(key).get(null);
+   }
+   protected Law get(Action key , Class clazz) {
+      return laws.get(key).get(clazz);
+   }
+
+   protected List<Action> getActions() {
       List<Action> actions = new ArrayList<Action>();
-      for (Action action : rules.keySet()) {
+      for (Action action : laws.keySet()) {
          actions.add(action);
       }
       return actions;
-   }
-
-   public void setRule(Action action, Rule rule) {
-      setRule(AND, action, (Rule[]) asList(rule).toArray());
-   }
-
-   public void setRule(Operator operator, Action action, Rule rule) {
-      setRule(operator, action, (Rule[]) asList(rule).toArray());
-   }
-
-   public void setRule(Action action, Rule... rulesArray) {
-      setRule(AND, action, rulesArray);
-   }
-
-   public void setRule(Operator operator, Action action, Rule... rulesArray) {
-      RuleSet ruleset = new RuleSet(asList(rulesArray), operator);
-      rules.put(action, ruleset);
    }
 
 

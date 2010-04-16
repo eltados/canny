@@ -19,10 +19,16 @@ public class CustomRules extends Rules {
       }
    };
 
-   public static final Rule ADMIN = new Rule("You need to be an Admin", "You should not be an Admin") {
+   public static final Rule ADMIN = new Rule("You need to be an Admin") {
       public boolean can(User user, Object object) {
          UserVO userVO = (UserVO) user;
          return userVO != null && userVO.getRole().equals("admin");
+      }
+   };
+   public static final Rule OBJECT_LOCKED = new Rule("The learning object is locked") {
+      public boolean can(User user, Object object) {
+         LearningObjectVO lo = (LearningObjectVO) object;
+         return lo != null && lo.isLocked();
       }
    };
    public static final Rule GUEST_OR_HIGHER = new Rule("You need to be an a guest or higher level") {

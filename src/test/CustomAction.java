@@ -1,7 +1,6 @@
 package test;
 
 import engine.Action;
-import engine.rule.Operator;
 
 /**
  * Created by IntelliJ IDEA.
@@ -12,6 +11,8 @@ import engine.rule.Operator;
  */
 public class CustomAction {
     public final static Action EDIT = new ActionVO("edit");
+    public final static Action EDIT_LEARNING_OBJECT = new ActionVO("edit learning object");
+    public final static Action SUPER_SECURE = new ActionVO("super secure");
     public final static Action READ = new ActionVO("read");
     public final static Action DELETE = new ActionVO("delete");
     public final static Action UPDATE = new ActionVO("update");

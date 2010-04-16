@@ -24,9 +24,7 @@ public class Dynamic {
         if (methodString.endsWith("()"))
             methodString = methodString.substring(0, methodString.length() - 2);
         Method method = object.getClass().getDeclaredMethod(methodString, classesArray);
-//        method.setAccessible(true);
         output = method.invoke(object, args);
-//        method.setAccessible(false);
         return output;
     }
    //------------------------------------------

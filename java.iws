@@ -15,23 +15,8 @@
     <option name="historyRevisionsNumber" value="4" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" name="Default" comment="refactor Canny">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/izera2/canny/rule/RuleSet.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/izera2/canny/rule/Definition.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/izera2/canny/interfaces/Localizable.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/izera2/canny/interfaces/Translator.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/izera2/canny/rule/Rules.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/izera2/canny/jstl/CanTag.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/izera2/canny/rule/Rule.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/izera2/canny/interfaces/Action.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/izera2/canny/utils/Dynamic.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/java.iws" afterPath="$PROJECT_DIR$/java.iws" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/izera2/canny/rule/Law.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/izera2/canny/interfaces/User.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/izera2/canny/Authorization.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/izera2/canny/rule/Engine.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/izera2/canny/jstl/WhyTag.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/izera2/canny/jstl/CannotTag.java" />
+    <list default="true" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/izera2/canny/exception/AccessDeniedException.java" />
     </list>
     <ignored path="java.iws" />
     <ignored path=".idea/workspace.xml" />

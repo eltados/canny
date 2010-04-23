@@ -7,27 +7,35 @@ This is completely decoupled from any role based implementation allowing you to 
 Define rules
 ------------
 
-      Engine myEngine = new Engine(
-                 Translator.DEFAULT,
-                 new Definition() {{
-                    setRule(CANCEL, CANCELLABLE , OBJECT_SHOULD_BE_A_INTEGER);
-                    setRule(READ, TRUE);
-                    setRule(EDIT, OBJECT_SHOULD_BE_A_STRING);
-                    setRule(DELETE, ADMIN, OBJECT_SHOULD_BE_A_STRING);
-                    setRule(IDENTICAL, new IdenticalRule());
-                 }}
-         );
+      Authorization.load(new Engine(
+              new Definition() {{
+
+                 forAction(CREATE_POST)
+                         .allow(REGISTERED_USER)
+                         .allow(ADMIN)
+                         .deny(BAN_USER);
+
+                 forAction(READ_POST)
+                         .allow(ALL)
+                         .deny(OBJECT_IS_DISACTIVATED);
+
+                 forAction(UPDATE_POST)
+                         .allow(ADMIN)
+                         .allow(OWNER)
+                         .deny(OBJECT_IS_DISACTIVATED);
+
+                 forAction(SUPER_SECURE_ACTION)
+                         .allow(ADMIN, OWNER);
+              }}
+      ));
          
-_see more information in the [test folder](http://github.com/eltados/canny/tree/master/src/test/)._
+_see more information in the [test folder](http://github.com/eltados/canny/tree/master/test/com/izera2/canny/TestAuthorization.java)._
 
 Use Engine
 ----------
-      myEngine.can(admin, CustomAction.READ)); 
-      myEngine.can(null, CustomAction.READ, "something");
-      myEngine.can(admin, CustomAction.EDIT, 15)
-      myEngine.can(admin, DELETE, "something"));
-      myEngine.can(guest, DELETE, null);
-      myEngine.can(admin, DELETE, null);
-      myEngine.why(admin, DELETE, null); // => "The Object passed should be a String"
 
-_see more information in the [test folder](http://github.com/eltados/canny/tree/master/src/test/)._
+      Authorization.can(A_USER, CREATE_POST); // return boolean
+      Authorization.can(A_USER, CREATE_POST); // return boolean
+
+
+_see more information in the [test folder](http://github.com/eltados/canny/tree/master/test/com/izera2/canny/TestAuthorization.java)._

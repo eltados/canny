@@ -1,6 +1,8 @@
 Canny
 =====
 
+From the verb can (“‘to know’”) from Middle English can, first and third person singular of cunnen, connen (“‘to be able, know how to’”) from Old English cunnan (“‘to know how to, be able to’”). More at can, cunning.(http://en.wiktionary.org/wiki/canny#Scots)
+
 Canny is a very small and very simple authorization solution in java more or less inspired from [ryanb/cancan](http://github.com/ryanb/cancan).
 This is completely decoupled from any role based implementation allowing you to define user roles the way you want. All permissions are stored in a single location for convenience.
 

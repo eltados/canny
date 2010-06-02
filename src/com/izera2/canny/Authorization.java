@@ -1,9 +1,9 @@
 package com.izera2.canny;
 
 import com.izera2.canny.exception.AccessDeniedException;
-import com.izera2.canny.rule.Engine;
 import com.izera2.canny.interfaces.Action;
 import com.izera2.canny.interfaces.User;
+import com.izera2.canny.rule.Engine;
 
 import java.util.List;
 import java.util.Map;
@@ -29,7 +29,8 @@ public class Authorization {
       return engine.can(user, action, object);
    }
 
-   public static List<String> why(User user, Action action, Object object) {
+
+   public static String why(User user, Action action, Object object) {
       return engine.why(user, action, object);
    }
 
@@ -45,7 +46,7 @@ public class Authorization {
       return engine.getAvailableActions(actions, user, object);
    }
 
-   public static Map<Action, List<String>> getActionsAccess(List<Action> actions, User user, Object object) {
+   public static Map<Action, String> getActionsAccess(List<Action> actions, User user, Object object) {
       return engine.getActionsAccess(actions, user, object);
    }
 
@@ -70,23 +71,23 @@ public class Authorization {
       return getUnavailableActions(getAllActions(), user, null);
    }
 
-   public static Map<Action, List<String>> getUnavailableActionsAccess(User user, Object object) {
+   public static Map<Action, String> getUnavailableActionsAccess(User user, Object object) {
       return getActionsAccess(getUnavailableActions(user, object), user, object);
    }
 
-   public static Map<Action, List<String>> getUnavailableActionsAccess(User user) {
+   public static Map<Action, String> getUnavailableActionsAccess(User user) {
       return getActionsAccess(getUnavailableActions(user, null), user, null);
    }
 
-   public static Map<Action, List<String>> getActionsAccess(User user, Object object) {
+   public static Map<Action, String> getActionsAccess(User user, Object object) {
       return getActionsAccess(getAllActions(), user, object);
    }
 
-   public static Map<Action, List<String>> getActionsAccess(List<Action> actions, User user) {
+   public static Map<Action, String> getActionsAccess(List<Action> actions, User user) {
       return getActionsAccess(actions, user, null);
    }
 
-   public static Map<Action, List<String>> getActionsAccess(User user) {
+   public static Map<Action, String> getActionsAccess(User user) {
       return getActionsAccess(getAllActions(), user, null);
    }
 
@@ -105,7 +106,8 @@ public class Authorization {
       return isAutorized(user, action, null);
    }
 
-   public static List<String> why(User user, Action action) {
+
+   public static String why(User user, Action action) {
       return why(user, action, null);
    }
 }

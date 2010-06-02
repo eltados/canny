@@ -8,17 +8,18 @@ import java.util.Locale;
 
 public abstract class Rule {
    protected String errorMessage = "the rule " + this.getClass().getName() + " failed";
-   protected String notErrorMessage = "the rule " + this.getClass().getName() + " did not failed";
+   protected String notErrorMessage = null;
    public abstract boolean can(User user, Object object);
 
    protected String getErrorMessage() {
          return errorMessage;
    }
+   protected String getNotErrorMessage() {
+         return notErrorMessage == null ? "NOT("+errorMessage+")":notErrorMessage;
+   }
    public String getErrorMessage(Translator translator , Locale locale, Object ... objects) {
          return translator.translate(errorMessage, locale , objects);
    }
-
-
 
    public Rule() {
    }
@@ -27,13 +28,29 @@ public abstract class Rule {
       this.errorMessage = errorMessage;
    }
 
+   public Rule(String errorMessage,String notErrorMessage) {
+      this.errorMessage = errorMessage;
+      this.notErrorMessage = notErrorMessage;
+   }
 
    public String toString(){
       return errorMessage;
    }
 
-
-
+   public Rule not() {
+      return new NotRule(this);
+   }
+   public class NotRule extends Rule{
+      Rule rule;
+      public NotRule(Rule rule) {
+         this.rule = rule;
+         this.errorMessage=rule.getNotErrorMessage();
+         this.notErrorMessage=rule.getErrorMessage();
+      }
+      public boolean can(User user, Object object) {
+         return !rule.can(user,object);
+      }
+   }
 
 
 }

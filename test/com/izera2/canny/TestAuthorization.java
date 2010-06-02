@@ -2,8 +2,7 @@ package com.izera2.canny;
 
 import com.izera2.canny.exception.AccessDeniedException;
 import static com.izera2.canny.impl.ActionImpl.*;
-import static com.izera2.canny.impl.RuleImpl.ALL;
-import static com.izera2.canny.impl.RuleImpl.NONE;
+import static com.izera2.canny.impl.RuleImpl.*;
 import static com.izera2.canny.impl.UserImpl.A_USER;
 import com.izera2.canny.rule.Definition;
 import com.izera2.canny.rule.Engine;
@@ -90,6 +89,7 @@ public class TestAuthorization extends CannyTestCase {
       assertEquals(false , Authorization.can(A_USER, DELETE));
    }
 
+
    public void testDenyOrAnd() {
       Authorization.load(new Engine(
               new Definition() {{
@@ -153,4 +153,48 @@ public class TestAuthorization extends CannyTestCase {
       assertContains(Arrays.asList(UPDATE,DELETE), Authorization.getUnavailableActions(A_USER));
 
    }
+
+
+    public void testRuleNot() {
+      Authorization.load(new Engine(
+              new Definition() {{
+                  forAction(READ)
+                         .allow(NONE.not());
+
+
+                 forAction(CREATE)
+                         .deny(ALL.not());
+
+                 forAction(UPDATE)
+                         .allow(ALL.not())
+                         .allow(NONE.not());
+
+                 forAction(DELETE)
+                         .deny(ALL)
+                         .deny(NONE.not())
+                         .allow(ALL.not(),NONE.not());
+
+              }}
+      ));
+      assertEquals(true , Authorization.can(A_USER, READ));
+      assertEquals(false , Authorization.can(A_USER, CREATE));
+      assertEquals(true , Authorization.can(A_USER, UPDATE));
+      assertEquals(false , Authorization.can(A_USER, DELETE));
+
+   }
+
+   public void testWhy() {
+      Authorization.load(new Engine(
+              new Definition() {{
+                  forAction(READ)
+                         .allow(NONE, ALL,NONE,ALL)
+                         .allow(ALL.not())
+                         .deny(NONE.not(),ALL.not().not() , NONE);
+
+              }}
+      ));
+      assertEquals("Always rejected AND Always valid* AND Always rejected AND Always valid* => FAILED\n" +
+                   "Always rejected => FAILED\n",Authorization.why(A_USER,READ));
+   }
+
 }

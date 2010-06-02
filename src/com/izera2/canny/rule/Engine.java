@@ -37,20 +37,22 @@ public class Engine {
       return law.can(user, object);
    }
 
-   public List<String> why(User user, Action action, Object object) {
+
+   public String why(User user, Action action, Object object) {
       Law law = getLaw(action);
       if (law == null)
-         return getActionNotFindErrorMessages(user, action);
+         return "The action " + action.toString() + " does not exists";
 
       if (law.isEmpty())
-         return getActionHasNoRulesErrorMessages(user, action);
-
-      return law.getErrors(user, object, translator);
+         return "This action " + action + " has no rules association with it";
+      return law.getErrors2(user, object);
    }
+
+
 
    public boolean isAutorized(User user, Action action, Object object) throws AccessDeniedException {
       if (!can(user, action, object))
-         throw new AccessDeniedException("Cannot access to this action because :"+why(user,action,object).toString());
+         throw new AccessDeniedException("Cannot access to this action because :"+ why(user, action, object));
       return true;
    }
 
@@ -67,8 +69,8 @@ public class Engine {
    }
 
 
-   public Map<Action, List<String>> getActionsAccess(List<Action> actions, User user, Object object) {
-      Map<Action, List<String>> output = new HashMap<Action, List<String>>();
+   public Map<Action, String> getActionsAccess(List<Action> actions, User user, Object object) {
+      Map<Action, String> output = new HashMap<Action, String>();
       for (Action action : actions) {
          output.put(action, why(user, action, object));
       }
@@ -86,7 +88,7 @@ public class Engine {
 
    //=======================================
 
-   private Law getLaw(Action action){
+   public Law getLaw(Action action){
         return  definition.get(action);
      }
 
@@ -102,19 +104,19 @@ public class Engine {
    public List<Action> getUnavailableActions(User user) {
       return getUnavailableActions(getAllActions(), user, null);
    }
-   public Map<Action, List<String>> getUnavailableActionsAccess(User user, Object object) {
+   public Map<Action, String> getUnavailableActionsAccess(User user, Object object) {
       return getActionsAccess(getUnavailableActions(user, object), user, object);
    }
-   public Map<Action, List<String>> getUnavailableActionsAccess(User user) {
+   public Map<Action, String> getUnavailableActionsAccess(User user) {
       return getActionsAccess(getUnavailableActions(user, null), user, null);
    }
-   public Map<Action, List<String>> getActionsAccess(User user, Object object) {
+   public Map<Action, String> getActionsAccess(User user, Object object) {
       return getActionsAccess(getAllActions(), user, object);
    }
-   public Map<Action, List<String>> getActionsAccess(List<Action> actions, User user) {
+   public Map<Action, String> getActionsAccess(List<Action> actions, User user) {
       return getActionsAccess(actions, user, null);
    }
-   public Map<Action, List<String>> getActionsAccess(User user) {
+   public Map<Action, String> getActionsAccess(User user) {
       return getActionsAccess(getAllActions(), user, null);
    }
     public List<Action> getAvailableActions(User user, Object object) {
@@ -126,7 +128,7 @@ public class Engine {
     public boolean isAutorized(User user, Action action) throws AccessDeniedException {
       return isAutorized(user,action,null);
    }
-   public List<String> why(User user, Action action) {
+   public String why(User user, Action action) {
       return why(user, action, null);
    }
  //===================================================================

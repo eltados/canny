@@ -10,11 +10,19 @@ import java.util.List;
 public class RuleSet {
 
    List<Rule> rules = new ArrayList<Rule>();
-
+   int actionType = ALLOW;
    //-----------------------------------------
-   
+
+   static int  ALLOW  = 1;
+   static int DENY = 0;
+
    public RuleSet(List<Rule> rules) {
       this.rules = rules;
+   }
+   //-------------------------------------------------------------
+   public RuleSet(List<Rule> rules, int actionType) {
+      this.rules = rules;
+      this.actionType = actionType;
    }
    //-------------------------------------------------------------
 
@@ -35,6 +43,17 @@ public class RuleSet {
       }
       return true;
    }
+   
+//   public boolean canAllow(User user, Object object) {
+//      for (Rule rule : rules) {
+//         if (!rule.can(user, object))
+//            return false;
+//      }
+//      return true;
+//   }
+//   public boolean canDeny(User user, Object object) {
+//      return !canAllow(user,object);
+//   }
 
    public List<String> getErrors(User user, Object object, Translator translator) {
       List<String> errors = new ArrayList<String>();
@@ -48,13 +67,29 @@ public class RuleSet {
    public String toString(){
       String ouput = "";
       for (Rule rule : rules) {
-         ouput+= rule.getErrorMessage() +" and ";
+         ouput+= rule.getErrorMessage() +" AND ";
       }
-      if(ouput.endsWith(" and "))
+      if(ouput.endsWith(" AND "))
          ouput = ouput.substring(0, ouput.length()-5);
       return ouput;
    }
 
+   public String toString(User user, Object object) {
+       String ouput = "";
+      for (Rule rule : rules) {
+         if(rule.can(user,object))
+            ouput+= rule.getErrorMessage()+"* AND ";
+         else
+            ouput+= rule.getErrorMessage()+" AND ";
+      }
+      if(ouput.endsWith(" AND "))
+         ouput = ouput.substring(0, ouput.length()-5);
+      if(actionType == DENY)
+         ouput+=" => DENY";
+      else
+         ouput+=" => FAILED";
+      return ouput;
+   }
 
 
 }

@@ -45,7 +45,7 @@ public class Engine {
 
       if (law.isEmpty())
          return "This action " + action + " has no rules association with it";
-      return law.getErrors2(user, object);
+      return law.getErrors(user, object);
    }
 
 
@@ -58,6 +58,9 @@ public class Engine {
 
    public List<Action> getAllActions() {
       return definition.getActions();
+   }
+   public HashMap<Action, Law> getLaws() {
+      return definition.getLaws();
    }
    public List<Action> getAvailableActions(List<Action> actions, User user, Object object) {
       List<Action> output = new ArrayList<Action>();

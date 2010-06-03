@@ -14,6 +14,13 @@ public class Definition {
    }
 
 
+   public Law forAction(Action... actions) {
+      Law law = new Law();
+      for (Action action : actions) {
+         laws.put(action,law);
+      }
+      return law;
+   }
    public Law forAction(Action action) {
       Law law = new Law();
       laws.put(action,law);

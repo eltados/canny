@@ -1,10 +1,11 @@
 package com.izera2.canny.rule;
 
-import com.izera2.canny.utils.Dynamic;
 import com.izera2.canny.interfaces.Translator;
 import com.izera2.canny.interfaces.User;
+import com.izera2.canny.utils.Dynamic;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class RuleSet {
@@ -18,6 +19,9 @@ public class RuleSet {
 
    public RuleSet(List<Rule> rules) {
       this.rules = rules;
+   }
+   public RuleSet(Rule... rules) {
+      this.rules = Arrays.asList(rules);
    }
    //-------------------------------------------------------------
    public RuleSet(List<Rule> rules, int actionType) {

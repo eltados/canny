@@ -11,10 +11,10 @@ public abstract class Rule {
    protected String notErrorMessage = null;
    public abstract boolean can(User user, Object object);
 
-   protected String getErrorMessage() {
+   public String getErrorMessage() {
          return errorMessage;
    }
-   protected String getNotErrorMessage() {
+   public String getNotErrorMessage() {
          return notErrorMessage == null ? "NOT("+errorMessage+")":notErrorMessage;
    }
    public String getErrorMessage(Translator translator , Locale locale, Object ... objects) {

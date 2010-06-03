@@ -1,6 +1,5 @@
 package com.izera2.canny.rule;
 
-import com.izera2.canny.interfaces.Translator;
 import com.izera2.canny.interfaces.User;
 
 import java.util.ArrayList;
@@ -13,17 +12,27 @@ public class Law{
    public Law() {
    }
 
-//   public Law allow(Law law) {
-//      this.rulesets.addAll(law.rulesets);
-//      return this;
-//   }
-//   public Law deny(Law law) {
-//      this.denyRulesets.addAll(law.denyRulesets);
-//      return this;
-//   }
-//   public Law addLaw(Law law) {
-//      return deny(law).allow(law);
-//   }
+   public Law allow(RuleSet ruleset) {
+      ruleset.actionType=RuleSet.ALLOW;
+      this.rulesets.add(ruleset);
+      return this;
+   }
+   public Law deny(RuleSet ruleset) {
+      ruleset.actionType=RuleSet.DENY;
+      this.rulesets.add(ruleset);
+      return this;
+   }
+   public Law allow(Law law) {
+      this.rulesets.addAll(law.rulesets);
+      return this;
+   }
+   public Law deny(Law law) {
+      this.rulesets.addAll(law.rulesets);
+      return this;
+   }
+   public Law addLaw(Law law) {
+      return deny(law).allow(law);
+   }
 
    public Law allow(Rule... rules) {
       RuleSet ruleset = new RuleSet(Arrays.asList(rules));
@@ -69,29 +78,12 @@ public class Law{
       return false;
    }
 
-   public List<String> getErrors(User user, Object object, Translator translator) {
-      // todo use translator
-      List<String> errors = new ArrayList<String>();
-      for (RuleSet ruleSet : getAllowFailingRuleSets(user, object)) {
-         errors.add(ruleSet.toString());
-      }
-//      for (RuleSet ruleSet : getDenyFailingRuleSets(user, object)) {
-//         errors.add(ruleSet.toString());
-//      }
-      return errors;
-   }
 
-   public String getErrors2(User user, Object object) {
+   public String getErrors(User user, Object object) {
       String errors ="";
       for (RuleSet ruleSet : getFailingRuleSets(user, object)) {
          errors+= ruleSet.toString(user,object)+"\n";
       }
-//      for (RuleSet ruleSet : getDenyFailingRuleSets(user, object)) {
-//         errors+= "("+ruleSet.toString(user,object)+") => DENY\n";
-//      }
-//      for (RuleSet ruleSet : getAllowFailingRuleSets(user, object)) {
-//         errors+= "("+ruleSet.toString(user,object)+") => FAILED\n";
-//      }
       return errors;
    }
 

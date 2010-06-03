@@ -2,7 +2,8 @@ package com.izera2.canny;
 
 import com.izera2.canny.exception.AccessDeniedException;
 import static com.izera2.canny.impl.ActionImpl.*;
-import static com.izera2.canny.impl.RuleImpl.*;
+import static com.izera2.canny.impl.RuleImpl.ALL;
+import static com.izera2.canny.impl.RuleImpl.NONE;
 import static com.izera2.canny.impl.UserImpl.A_USER;
 import com.izera2.canny.rule.Definition;
 import com.izera2.canny.rule.Engine;
@@ -186,15 +187,39 @@ public class TestAuthorization extends CannyTestCase {
    public void testWhy() {
       Authorization.load(new Engine(
               new Definition() {{
-                  forAction(READ)
+                  forAction(READ,CREATE)
                          .allow(NONE, ALL,NONE,ALL)
                          .allow(ALL.not())
                          .deny(NONE.not(),ALL.not().not() , NONE);
-
               }}
       ));
       assertEquals("Always rejected AND Always valid* AND Always rejected AND Always valid* => FAILED\n" +
                    "Always rejected => FAILED\n",Authorization.why(A_USER,READ));
+      assertEquals("Always rejected AND Always valid* AND Always rejected AND Always valid* => FAILED\n" +
+                   "Always rejected => FAILED\n",Authorization.why(A_USER,CREATE));
+   }
+   public void testMultipleActions() {
+      Authorization.load(new Engine(
+              new Definition() {{
+                  forAction(READ, CREATE)
+                         .allow(ALL);
+
+                 forAction(UPDATE,DELETE)
+                         .allow(ALL,NONE.not())
+                         .deny(NONE)
+                         .deny(ALL);
+
+              }}
+      ));
+
+      assertEquals(true , Authorization.can(A_USER, READ));
+      assertEquals(true , Authorization.can(A_USER, CREATE));
+      assertEquals(false , Authorization.can(A_USER, UPDATE));
+      assertEquals(false , Authorization.can(A_USER, DELETE));
+      assertEquals(Authorization.getEngine().getLaw(READ), Authorization.getEngine().getLaw(CREATE));
+      assertEquals(Authorization.getEngine().getLaw(UPDATE), Authorization.getEngine().getLaw(DELETE));
+      assertNotSame(Authorization.getEngine().getLaw(READ), Authorization.getEngine().getLaw(DELETE));
+
    }
 
 }

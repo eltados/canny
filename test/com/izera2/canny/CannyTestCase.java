@@ -28,7 +28,7 @@ public class CannyTestCase extends TestCase {
       } catch (Exception e) {
          assertTrue("we expected a "+expectedException.getSimpleName()+" but got a "+e.getClass().getSimpleName(),expectedException.isInstance(e));
          if(expectedMessage!=null)
-            assertEquals("exception message are differents",expectedMessage,e.getMessage());
+            assertEquals("exception messages are differents",expectedMessage,e.getMessage());
       }
    }
 

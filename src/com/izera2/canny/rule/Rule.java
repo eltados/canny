@@ -40,7 +40,8 @@ public abstract class Rule {
    public Rule not() {
       return new NotRule(this);
    }
-   public class NotRule extends Rule{
+
+    private class NotRule extends Rule{
       Rule rule;
       public NotRule(Rule rule) {
          this.rule = rule;

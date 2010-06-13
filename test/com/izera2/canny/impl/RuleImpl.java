@@ -7,25 +7,13 @@ import com.izera2.canny.rule.Rule;
 public  class RuleImpl {
 
    public static Rule Not(final Rule rule) {
-      return new Rule("NOT("+rule.getErrorMessage()+")") {
+      return new Rule(rule.getNotErrorMessage() , rule.getErrorMessage()) {
         public boolean can(User user, Object object) {
            return !rule.can(user,object);
         }
       };
    }
 
-    public static Rule Combine(final Rule... rules) {
-       return new Rule("Combined "+rules.toString()) {
-        public boolean can(User user, Object object) {
-           for (Rule rule : rules) {
-              if(!rule.can(user,object))
-                 return false;
-           }
-           return true;
-        }
-      };
-   }
-   
   
    public static final Rule ALL = new Rule("Always valid" , "Always rejected") {
       public boolean can(User user, Object object) {

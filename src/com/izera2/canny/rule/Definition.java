@@ -13,7 +13,6 @@ public class Definition {
       return laws;
    }
 
-
    public Law forAction(Action... actions) {
       Law law = new Law();
       for (Action action : actions) {

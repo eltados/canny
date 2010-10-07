@@ -49,7 +49,7 @@ Use Engine
       Authorization.can(admin, MyActions.DELETE_POST, post)
       Authorization.isAuthorized(admin, MyActions.CREATE_POST) // throw an AccessDeniedException in case of access denied
 
-The engine can be user in you view ( for example to hidden  the link the user don't have access to) and in your server side maybe using isAuthorized().
+The engine can be user in you view ( for example to hidden the links the user don't have access to) and in your server side maybe using isAuthorized().
 
 
 _see a [the full example](http://github.com/eltados/canny/tree/master/test/com/izera2/canny/example/)._
